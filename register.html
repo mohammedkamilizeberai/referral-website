@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>Become a Referrer · Webs By Kamil</title>
+  <!-- same font as other pages -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── reset & base ── */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --charcoal: #121212;
+      --gold: #D4AF37;
+      --gold-light: #E4C580;
+      --white: #ffffff;
+      --gray-100: #f5f5f5;
+      --gray-200: #e8e8e8;
+      --gray-300: #d0d0d0;
+      --gray-700: #3a3a3a;
+      --gray-900: #1f1f1f;
+      --shadow-sm: 0 8px 20px rgba(0,0,0,0.03), 0 2px 6px rgba(0,0,0,0.03);
+      --shadow-md: 0 20px 40px -12px rgba(0,0,0,0.08), 0 8px 24px -6px rgba(0,0,0,0.03);
+      --radius-lg: 28px;
+      --radius-md: 20px;
+      --radius-sm: 14px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--charcoal);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── buttons ── */
+    .btn {
+      display: inline-block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      border: none;
+      background: var(--charcoal);
+      color: var(--white);
+      text-decoration: none;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+      text-align: center;
+    }
+
+    .btn--gold {
+      background: var(--gold);
+      color: var(--charcoal);
+    }
+
+    .btn--gold:hover {
+      background: #c4a032;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -8px rgba(212, 175, 55, 0.25);
+    }
+
+    .btn--outline {
+      background: transparent;
+      color: var(--charcoal);
+      border: 1.5px solid var(--charcoal);
+    }
+
+    .btn--outline:hover {
+      background: var(--charcoal);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .btn--white-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1.5px solid var(--white);
+    }
+
+    .btn--white-outline:hover {
+      background: var(--white);
+      color: var(--charcoal);
+      transform: translateY(-2px);
+    }
+
+    .btn--block {
+      width: 100%;
+    }
+
+    /* ── navigation ── */
+    nav {
+      padding: 20px 0 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 50;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+    }
+
+    .logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      color: var(--charcoal);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .logo span {
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--gray-700);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+      padding: 4px 2px;
+      border-bottom: 2px solid transparent;
+    }
+
+    .nav-links a:hover {
+      color: var(--charcoal);
+      border-bottom-color: var(--gold);
+    }
+
+    .nav-links .login-link {
+      font-weight: 600;
+      color: var(--charcoal);
+      border: 1px solid var(--gray-200);
+      padding: 6px 18px;
+      border-radius: 40px;
+      background: white;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav-links .login-link:hover {
+      border-color: var(--charcoal);
+      background: var(--charcoal);
+      color: white;
+    }
+
+    .nav-toggle {
+      display: none;
+      font-size: 1.8rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--charcoal);
+      padding: 0 4px;
+    }
+
+    /* ── hero ── */
+    .hero {
+      padding: 50px 0 60px;
+      background: var(--charcoal);
+      color: var(--white);
+      border-radius: 0 0 48px 48px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .hero h1 .gold {
+      color: var(--gold);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.8);
+      max-width: 540px;
+      margin: 16px auto 0;
+      line-height: 1.6;
+    }
+
+    /* ── register layout ── */
+    .register-section {
+      padding: 50px 0 60px;
+    }
+
+    .register-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: start;
+    }
+
+    /* form card */
+    .form-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 40px 36px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .form-card h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .form-card .form-sub {
+      color: var(--gray-700);
+      margin-bottom: 28px;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+      color: var(--charcoal);
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-family: inherit;
+      background: var(--white);
+      transition: border-color 0.2s;
+      color: var(--charcoal);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+    }
+
+    .form-group input.error,
+    .form-group select.error {
+      border-color: #d32f2f;
+    }
+
+    .form-group .error-msg {
+      color: #d32f2f;
+      font-size: 0.8rem;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .form-group .error-msg.visible {
+      display: block;
+    }
+
+    .form-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 18px 0 24px;
+    }
+
+    .form-check input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      accent-color: var(--gold);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .form-check label {
+      font-size: 0.9rem;
+      color: var(--gray-700);
+      cursor: pointer;
+    }
+
+    .form-check label a {
+      color: var(--charcoal);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .form-check.error .error-msg {
+      display: block;
+      color: #d32f2f;
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    .login-prompt {
+      text-align: center;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-200);
+      font-size: 0.95rem;
+      color: var(--gray-700);
+    }
+
+    .login-prompt a {
+      color: var(--charcoal);
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* info panel */
+    .info-panel {
+      background: var(--gray-100);
+      border-radius: var(--radius-md);
+      padding: 36px 30px;
+    }
+
+    .info-panel h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .info-panel .info-sub {
+      color: var(--gray-700);
+      margin-bottom: 24px;
+    }
+
+    .info-step {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+
+    .info-step .step-num {
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--gold);
+      min-width: 36px;
+    }
+
+    .info-step .step-content h4 {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .info-step .step-content p {
+      color: var(--gray-700);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .info-panel .important-box {
+      background: white;
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      margin-top: 28px;
+      border-left: 4px solid var(--gold);
+    }
+
+    .info-panel .important-box strong {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .info-panel .important-box p {
+      font-size: 0.9rem;
+      color: var(--gray-700);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* ── footer ── */
+    footer {
+      padding: 48px 0 32px;
+      border-top: 1px solid var(--gray-200);
+      margin-top: 30px;
+    }
+
+    .footer-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .footer-brand .logo {
+      font-size: 1.2rem;
+    }
+
+    .footer-brand p {
+      color: var(--gray-700);
+      font-size: 0.95rem;
+      max-width: 240px;
+      margin-top: 6px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 28px;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: var(--gray-700);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--charcoal);
+    }
+
+    .footer-copy {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--gray-700);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--gray-200);
+      padding-top: 24px;
+    }
+
+    /* ── responsive ── */
+    @media (max-width: 1024px) {
+      .register-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 20px;
+      }
+
+      nav {
+        padding: 16px 0 12px;
+      }
+
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        padding: 16px 0 8px;
+        gap: 12px;
+        border-top: 1px solid var(--gray-200);
+        margin-top: 12px;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-toggle {
+        display: block;
+      }
+
+      .nav-links .login-link {
+        background: transparent;
+        border: none;
+        padding: 6px 0;
+        box-shadow: none;
+      }
+
+      .nav-links .login-link:hover {
+        background: transparent;
+        color: var(--charcoal);
+      }
+
+      .hero {
+        padding: 40px 0 50px;
+        border-radius: 0 0 32px 32px;
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .form-card {
+        padding: 28px 20px;
+      }
+
+      .info-panel {
+        padding: 28px 20px;
+      }
+
+      .footer-grid {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .footer-links {
+        gap: 10px 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .btn {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.5rem;
+      }
+
+      .form-group input,
+      .form-group select {
+        padding: 10px 14px;
+        font-size: 0.95rem;
+      }
+    }
+
+    .mt-16 { margin-top: 16px; }
+    .text-center { text-align: center; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">WEBS <span>BY</span> KAMIL</a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="packages.html">Packages</a>
+        <a href="register.html">Become a Referrer</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html" class="login-link">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1>BECOME A <span class="gold">WEBS BY KAMIL</span> REFERRER</h1>
+      <p>Build valuable business connections and earn eligible commissions by referring businesses that need professional websites.</p>
+    </div>
+  </section>
+
+  <!-- REGISTRATION -->
+  <section class="register-section">
+    <div class="container register-grid">
+      <!-- Form -->
+      <div class="form-card">
+        <h2>Create your account</h2>
+        <p class="form-sub">Join as a Referrer and start building your network.</p>
+
+        <form id="registerForm" novalidate>
+          <!-- Full Name -->
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="e.g. Adeola Ogunlade" required />
+            <div class="error-msg" id="fullNameError">Please enter your full name.</div>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+            <div class="error-msg" id="emailError">Please enter a valid email address.</div>
+          </div>
+
+          <!-- Phone -->
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="+234 800 000 0000" required />
+            <div class="error-msg" id="phoneError">Please enter your phone number.</div>
+          </div>
+
+          <!-- Country -->
+          <div class="form-group">
+            <label for="country">Country</label>
+            <select id="country" name="country" required>
+              <option value="">Select your country</option>
+              <option value="Nigeria">Nigeria</option>
+              <option value="Ghana">Ghana</option>
+              <option value="Kenya">Kenya</option>
+              <option value="South Africa">South Africa</option>
+              <option value="United States">United States</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Canada">Canada</option>
+              <option value="Germany">Germany</option>
+              <option value="France">France</option>
+              <option value="Australia">Australia</option>
+              <option value="India">India</option>
+              <option value="Other">Other</option>
+            </select>
+            <div class="error-msg" id="countryError">Please select your country.</div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Min. 8 characters" required minlength="8" />
+            <div class="error-msg" id="passwordError">Password must be at least 8 characters.</div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter your password" required />
+            <div class="error-msg" id="confirmError">Passwords do not match.</div>
+          </div>
+
+          <!-- Terms -->
+          <div class="form-check" id="termsGroup">
+            <input type="checkbox" id="terms" name="terms" required />
+            <label for="terms">I agree to the <a href="#">Webs By Kamil Referral Program Terms</a>.</label>
+            <div class="error-msg" id="termsError">You must agree to the terms to register.</div>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn--gold btn--block">CREATE REFERRER ACCOUNT</button>
+
+          <div class="login-prompt">
+            Already have an account? <a href="login.html">Login</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- Info Panel -->
+      <div class="info-panel">
+        <h3>HOW REFERRING WORKS</h3>
+        <p class="info-sub">Three simple steps to start earning eligible commissions.</p>
+
+        <div class="info-step">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <h4>CREATE YOUR ACCOUNT</h4>
+            <p>Register as a Webs By Kamil Referrer.</p>
+          </div>
+        </div>
+
+        <div class="info-step">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <h4>REFER BUSINESSES</h4>
+            <p>Introduce businesses that may need professional websites.</p>
+          </div>
+        </div>
+
+        <div class="info-step">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <h4>EARN ELIGIBLE COMMISSION</h4>
+            <p>If a referral meets the program requirements and becomes a qualifying paying client, the applicable commission can be recorded.</p>
+          </div>
+        </div>
+
+        <div class="important-box">
+          <strong>⚠️ IMPORTANT</strong>
+          <p>Referrers are expected to make genuine and legitimate referrals. Do not spam businesses, impersonate Webs By Kamil, or make misleading claims about the services or referral program.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">WEBS <span>BY</span> KAMIL</a>
+          <p>Professional website design and development.</p>
+        </div>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="how-it-works.html">How It Works</a>
+          <a href="packages.html">Packages</a>
+          <a href="register.html">Become a Referrer</a>
+          <a href="contact.html">Contact</a>
+          <a href="login.html">Login</a>
+        </div>
+      </div>
+      <div class="footer-copy">
+        &copy; 2026 Webs By Kamil. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- validation script -->
+  <script>
+    (function() {
+      const form = document.getElementById('registerForm');
+
+      // helper to show error
+      function setError(inputId, errorId, condition) {
+        const input = document.getElementById(inputId);
+        const errorEl = document.getElementById(errorId);
+        if (!input || !errorEl) return;
+
+        if (condition) {
+          input.classList.add('error');
+          errorEl.classList.add('visible');
+        } else {
+          input.classList.remove('error');
+          errorEl.classList.remove('visible');
+        }
+      }
+
+      // validate single field
+      function validateField(field) {
+        const id = field.id;
+        if (id === 'fullName') {
+          const valid = field.value.trim().length > 0;
+          setError('fullName', 'fullNameError', !valid);
+          return valid;
+        }
+        if (id === 'email') {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          const valid = emailRegex.test(field.value.trim());
+          setError('email', 'emailError', !valid);
+          return valid;
+        }
+        if (id === 'phone') {
+          const valid = field.value.trim().length > 0;
+          setError('phone', 'phoneError', !valid);
+          return valid;
+        }
+        if (id === 'country') {
+          const valid = field.value !== '';
+          setError('country', 'countryError', !valid);
+          return valid;
+        }
+        if (id === 'password') {
+          const valid = field.value.length >= 8;
+          setError('password', 'passwordError', !valid);
+          return valid;
+        }
+        if (id === 'confirmPassword') {
+          const pwd = document.getElementById('password');
+          const valid = pwd && field.value === pwd.value && field.value.length >= 8;
+          setError('confirmPassword', 'confirmError', !valid);
+          return valid;
+        }
+        return true;
+      }
+
+      // validate terms
+      function validateTerms() {
+        const checked = document.getElementById('terms').checked;
+        const group = document.getElementById('termsGroup');
+        const errorEl = document.getElementById('termsError');
+        if (!checked) {
+          group.classList.add('error');
+          errorEl.style.display = 'block';
+        } else {
+          group.classList.remove('error');
+          errorEl.style.display = 'none';
+        }
+        return checked;
+      }
+
+      // real-time validation on blur
+      const inputs = form.querySelectorAll('input, select');
+      inputs.forEach(el => {
+        el.addEventListener('blur', function() {
+          if (this.id === 'terms') return; // handled separately
+          validateField(this);
+        });
+        el.addEventListener('input', function() {
+          // clear error while typing (except confirm password)
+          if (this.id === 'confirmPassword') {
+            // re-check match
+            const pwd = document.getElementById('password');
+            const valid = pwd && this.value === pwd.value && this.value.length >= 8;
+            setError('confirmPassword', 'confirmError', !valid);
+          } else if (this.id !== 'terms') {
+            const errorEl = document.getElementById(this.id + 'Error');
+            if (errorEl) {
+              this.classList.remove('error');
+              errorEl.classList.remove('visible');
+            }
+          }
+        });
+      });
+
+      // terms change
+      document.getElementById('terms').addEventListener('change', function() {
+        validateTerms();
+      });
+
+      // form submit
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // validate all fields
+        let isValid = true;
+
+        // check each required field
+        const fields = ['fullName', 'email', 'phone', 'country', 'password', 'confirmPassword'];
+        fields.forEach(id => {
+          const el = document.getElementById(id);
+          if (!validateField(el)) {
+            isValid = false;
+          }
+        });
+
+        // terms
+        if (!validateTerms()) {
+          isValid = false;
+        }
+
+        if (!isValid) {
+          // scroll to first error
+          const firstError = form.querySelector('.error, .form-check.error');
+          if (firstError) {
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          return;
+        }
+
+        // ---- SUCCESS ----
+        // In production with Supabase, this is where we'd call signUp()
+        // For now, show a friendly message (no fake account creation)
+        alert(
+          '✅ Registration form is ready!\n\n' +
+          'Supabase authentication will be connected later.\n' +
+          'After successful registration, you will be redirected to dashboard.html.\n\n' +
+          'Thank you for joining Webs By Kamil.'
+        );
+
+        // Reset form (optional – comment out if you want to keep data for testing)
+        // form.reset();
+        // clear errors
+        form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+        form.querySelectorAll('.error-msg.visible').forEach(el => el.classList.remove('visible'));
+        document.getElementById('termsGroup').classList.remove('error');
+        document.getElementById('termsError').style.display = 'none';
+      });
+
+      // mobile toggle
+      const toggle = document.getElementById('navToggle');
+      const links = document.getElementById('navLinks');
+      if (toggle && links) {
+        toggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          links.classList.toggle('open');
+        });
+
+        links.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+              links.classList.remove('open');
+            }
+          });
+        });
+
+        document.addEventListener('click', function(e) {
+          if (window.innerWidth <= 768 && !links.contains(e.target) && e.target !== toggle) {
+            links.classList.remove('open');
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
