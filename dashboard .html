@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
+  <title>Dashboard · Webs By Kamil</title>
+  <!-- Supabase JS v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Google Font (Inter) for clean modern look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+  <style>
+    /* ----- RESET & BASE ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0b0b0b;
+      color: #e8e6e3;
+      min-height: 100vh;
+      padding: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .dashboard-wrapper {
+      max-width: 1400px;
+      width: 100%;
+      background: #121212;
+      border-radius: 2rem;
+      padding: 2rem 2rem 2.5rem;
+      box-shadow: 0 20px 40px -12px rgba(0,0,0,0.8);
+      border: 1px solid #2a2a2a;
+    }
+
+    /* ----- TYPOGRAPHY & ACCENTS ----- */
+    .gold {
+      color: #d4af37;
+    }
+    .gold-border {
+      border-color: #d4af37;
+    }
+    .gold-bg {
+      background: #d4af37;
+      color: #0b0b0b;
+    }
+    .gold-bg-light {
+      background: rgba(212, 175, 55, 0.08);
+      border-left: 3px solid #d4af37;
+    }
+    a, .link-like {
+      color: #d4af37;
+      text-decoration: none;
+    }
+    a:hover {
+      color: #e6c452;
+    }
+
+    /* ----- HEADER / TOP BAR ----- */
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      gap: 1rem 0.5rem;
+    }
+    .brand {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: -0.02em;
+    }
+    .brand span {
+      color: #d4af37;
+    }
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #1e1e1e;
+      padding: 0.4rem 1rem 0.4rem 1.2rem;
+      border-radius: 60px;
+      border: 1px solid #2c2c2c;
+      flex-wrap: wrap;
+    }
+    .user-badge .name {
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+    .btn-logout {
+      background: transparent;
+      border: 1px solid #3a3a3a;
+      color: #ccc;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-logout:hover {
+      background: #d4af37;
+      border-color: #d4af37;
+      color: #0b0b0b;
+    }
+
+    /* ----- CARDS GRID (statistics) ----- */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .stat-card {
+      background: #1a1a1a;
+      border-radius: 1.2rem;
+      padding: 1.25rem 1rem;
+      border: 1px solid #262626;
+      transition: transform 0.15s ease, border-color 0.2s;
+    }
+    .stat-card:hover {
+      border-color: #d4af37;
+      transform: translateY(-3px);
+    }
+    .stat-card .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #9a9a9a;
+      font-weight: 600;
+    }
+    .stat-card .value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-top: 0.2rem;
+      color: #f0eee9;
+      line-height: 1.2;
+    }
+    .stat-card .value.gold {
+      color: #d4af37;
+    }
+
+    /* ----- PROFILE + REFERRAL LINK ----- */
+    .profile-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem 2.5rem;
+      background: #171717;
+      border-radius: 1.5rem;
+      padding: 1.8rem 2rem;
+      margin-bottom: 2.5rem;
+      border: 1px solid #282828;
+      align-items: flex-start;
+    }
+    .profile-info {
+      flex: 2 1 260px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .profile-info .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem 1.5rem;
+      font-size: 0.95rem;
+    }
+    .profile-info .row strong {
+      min-width: 90px;
+      color: #b0b0b0;
+      font-weight: 500;
+    }
+    .profile-info .row span {
+      color: #e8e6e3;
+      word-break: break-word;
+    }
+    .status-badge {
+      display: inline-block;
+      background: #2a2a2a;
+      padding: 0.1rem 0.9rem;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: capitalize;
+      border: 1px solid #3a3a3a;
+    }
+    .status-badge.active {
+      border-color: #4caf50;
+      color: #81c784;
+    }
+
+    .referral-link-box {
+      flex: 1 1 280px;
+      background: #0f0f0f;
+      border-radius: 1.2rem;
+      padding: 1.2rem 1.4rem;
+      border: 1px solid #2a2a2a;
+    }
+    .referral-link-box label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #aaa;
+      letter-spacing: 0.02em;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .link-copy-area {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .link-copy-area input {
+      flex: 1;
+      min-width: 180px;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 60px;
+      padding: 0.7rem 1rem;
+      font-size: 0.85rem;
+      color: #ddd;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+    }
+    .link-copy-area input:focus {
+      border-color: #d4af37;
+    }
+    .btn-copy {
+      background: #d4af37;
+      border: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #0b0b0b;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .btn-copy:hover {
+      background: #e6c452;
+    }
+    .copy-feedback {
+      font-size: 0.8rem;
+      color: #81c784;
+      margin-top: 0.3rem;
+      min-height: 1.4rem;
+    }
+
+    /* ----- TABLE (referral history) ----- */
+    .table-wrap {
+      background: #171717;
+      border-radius: 1.5rem;
+      padding: 0.2rem 0 0.2rem 0;
+      border: 1px solid #282828;
+      overflow-x: auto;
+      margin-bottom: 2.5rem;
+    }
+    .table-wrap h3 {
+      padding: 1.2rem 1.8rem 0.2rem 1.8rem;
+      font-weight: 600;
+      font-size: 1.2rem;
+      letter-spacing: -0.01em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      min-width: 500px;
+    }
+    th {
+      text-align: left;
+      padding: 1rem 1.8rem;
+      font-weight: 600;
+      color: #aaa;
+      border-bottom: 1px solid #2a2a2a;
+      letter-spacing: 0.02em;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+    td {
+      padding: 1rem 1.8rem;
+      border-bottom: 1px solid #242424;
+      color: #ddd;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    .status-pill {
+      display: inline-block;
+      padding: 0.2rem 0.8rem;
+      border-radius: 60px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: #2a2a2a;
+      color: #bbb;
+      text-transform: capitalize;
+    }
+    .status-pill.successful {
+      background: #1e3a2a;
+      color: #81c784;
+    }
+    .status-pill.pending {
+      background: #3a311a;
+      color: #e6c452;
+    }
+    .status-pill.paid {
+      background: #1a2a3a;
+      color: #64b5f6;
+    }
+    .empty-state {
+      padding: 2rem 1.8rem;
+      color: #777;
+      font-style: italic;
+    }
+
+    /* ----- COMMISSION SECTION (extra) ----- */
+    .commission-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      background: #171717;
+      border-radius: 1.5rem;
+      padding: 1.5rem 2rem;
+      border: 1px solid #282828;
+    }
+    .commission-item .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: #888;
+      letter-spacing: 0.04em;
+    }
+    .commission-item .value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #f0eee9;
+    }
+    .commission-item .value.gold {
+      color: #d4af37;
+    }
+
+    /* ----- RESPONSIVE ----- */
+    @media (max-width: 700px) {
+      body { padding: 0.8rem; }
+      .dashboard-wrapper { padding: 1.5rem 1rem; }
+      .top-bar { flex-direction: column; align-items: stretch; gap: 0.8rem; }
+      .brand { font-size: 1.6rem; }
+      .user-badge { justify-content: space-between; }
+      .profile-section { flex-direction: column; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .commission-section { grid-template-columns: 1fr 1fr; }
+      .link-copy-area { flex-direction: column; align-items: stretch; }
+      .btn-copy { width: 100%; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .commission-section { grid-template-columns: 1fr; }
+    }
+
+    /* error / loader */
+    .loader {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #999;
+    }
+    .error-box {
+      background: #2a1414;
+      border-left: 5px solid #cf6679;
+      padding: 1.2rem 1.8rem;
+      border-radius: 1rem;
+      margin: 1rem 0;
+      color: #f0c0c0;
+    }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+<div class="dashboard-wrapper" id="app">
+  <!-- top bar -->
+  <div class="top-bar">
+    <div class="brand">Webs<span>ByKamil</span> · Dashboard</div>
+    <div class="user-badge" id="userBadge">
+      <span class="name" id="greetingName">Loading...</span>
+      <button class="btn-logout" id="logoutBtn">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- stats cards -->
+  <div class="stats-grid" id="statsGrid">
+    <div class="stat-card"><div class="label">Total referrals</div><div class="value" id="totalRefs">0</div></div>
+    <div class="stat-card"><div class="label">Successful</div><div class="value gold" id="successRefs">0</div></div>
+    <div class="stat-card"><div class="label">Pending</div><div class="value" id="pendingRefs">0</div></div>
+    <div class="stat-card"><div class="label">Total commission</div><div class="value gold" id="totalComm">0</div></div>
+    <div class="stat-card"><div class="label">Available</div><div class="value gold" id="availComm">0</div></div>
+    <div class="stat-card"><div class="label">Paid</div><div class="value" id="paidComm">0</div></div>
+  </div>
+
+  <!-- profile + referral link -->
+  <div class="profile-section" id="profileSection">
+    <div class="profile-info" id="profileInfo">
+      <div class="row"><strong>Full name</strong><span id="fullName">—</span></div>
+      <div class="row"><strong>Email</strong><span id="email">—</span></div>
+      <div class="row"><strong>Phone</strong><span id="phone">—</span></div>
+      <div class="row"><strong>Country</strong><span id="country">—</span></div>
+      <div class="row"><strong>Referral code</strong><span id="refCode">—</span></div>
+      <div class="row"><strong>Status</strong><span id="statusBadge"><span class="status-badge" id="statusText">—</span></span></div>
+    </div>
+    <div class="referral-link-box">
+      <label for="refLinkInput">🔗 Your referral link</label>
+      <div class="link-copy-area">
+        <input type="text" id="refLinkInput" readonly value="https://mohammedkamilizeberai.github.io/referral-website/?ref=..." />
+        <button class="btn-copy" id="copyLinkBtn">Copy link</button>
+      </div>
+      <div class="copy-feedback" id="copyFeedback"></div>
+    </div>
+  </div>
+
+  <!-- referral history table -->
+  <div class="table-wrap">
+    <h3>📋 Referral history</h3>
+    <div id="tableContainer">
+      <table>
+        <thead><tr><th>Referral</th><th>Date</th><th>Package</th><th>Status</th><th>Commission</th></tr></thead>
+        <tbody id="referralTableBody">
+          <tr><td colspan="5" class="empty-state">Loading referrals...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- commission summary (extra) -->
+  <div class="commission-section">
+    <div class="commission-item"><div class="label">Total earned</div><div class="value gold" id="totalEarnedComm">0</div></div>
+    <div class="commission-item"><div class="label">Available balance</div><div class="value gold" id="availableBalComm">0</div></div>
+    <div class="commission-item"><div class="label">Paid out</div><div class="value" id="paidOutComm">0</div></div>
+  </div>
+
+  <!-- hidden error container -->
+  <div id="errorContainer" class="hidden error-box"></div>
+</div>
+
+<script>
+  (function() {
+    // ---------- SUPABASE CONFIG ----------
+    const SUPABASE_URL = 'https://YOUR_PROJECT_URL.supabase.co';          // <-- REPLACE with your URL
+    const SUPABASE_PUBLISHABLE_KEY = 'YOUR_PUBLISHABLE_KEY';             // <-- REPLACE with your key
+
+    // ---------- GLOBALS ----------
+    let supabaseClient = null;
+    let currentUser = null;        // { id, email, ... }
+    let profileData = null;        // from profiles table
+    let referralRecords = [];
+
+    // DOM refs
+    const $ = (id) => document.getElementById(id);
+    const greetingName = $('greetingName');
+    const fullName = $('fullName');
+    const email = $('email');
+    const phone = $('phone');
+    const country = $('country');
+    const refCode = $('refCode');
+    const statusText = $('statusText');
+    const refLinkInput = $('refLinkInput');
+    const copyFeedback = $('copyFeedback');
+    const copyBtn = $('copyLinkBtn');
+    const logoutBtn = $('logoutBtn');
+    const errorContainer = $('errorContainer');
+
+    // stats
+    const totalRefs = $('totalRefs');
+    const successRefs = $('successRefs');
+    const pendingRefs = $('pendingRefs');
+    const totalComm = $('totalComm');
+    const availComm = $('availComm');
+    const paidComm = $('paidComm');
+    // commission extra
+    const totalEarnedComm = $('totalEarnedComm');
+    const availableBalComm = $('availableBalComm');
+    const paidOutComm = $('paidOutComm');
+    const tableBody = $('referralTableBody');
+
+    // ---------- HELPER: SHOW ERROR (user-friendly) ----------
+    function showError(msg) {
+      errorContainer.classList.remove('hidden');
+      errorContainer.textContent = '⚠️ ' + msg;
+      // hide after 7s
+      setTimeout(() => errorContainer.classList.add('hidden'), 7000);
+    }
+
+    function hideError() {
+      errorContainer.classList.add('hidden');
+    }
+
+    // ---------- INIT SUPABASE ----------
+    function initSupabase() {
+      try {
+        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+      } catch (e) {
+        showError('Failed to connect to dashboard service. Please refresh.');
+        console.error('Supabase init error:', e);
+      }
+    }
+
+    // ---------- AUTH CHECK + REDIRECT ----------
+    async function checkAuthAndLoad() {
+      if (!supabaseClient) {
+        showError('Dashboard not initialized.');
+        return;
+      }
+      try {
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+        if (error || !session) {
+          // not authenticated -> redirect to register
+          window.location.href = 'register.html';
+          return;
+        }
+        currentUser = session.user;
+        // show basic email in greeting
+        greetingName.textContent = currentUser.email ? currentUser.email.split('@')[0] : 'User';
+        // load profile
+        await loadProfileAndReferrals();
+      } catch (err) {
+        showError('Authentication error. Please log in again.');
+        console.error('Auth error:', err);
+        // optional redirect after delay
+        setTimeout(() => { window.location.href = 'register.html'; }, 2000);
+      }
+    }
+
+    // ---------- LOAD PROFILE & REFERRALS ----------
+    async function loadProfileAndReferrals() {
+      if (!currentUser) return;
+      const userId = currentUser.id;
+
+      try {
+        // 1. fetch profile
+        const { data: profile, error: profErr } = await supabaseClient
+          .from('profiles')
+          .select('id, full_name, phone, country, email, referrer_code, status')
+          .eq('id', userId)
+          .maybeSingle();
+
+        if (profErr) {
+          console.error('Profile fetch error:', profErr);
+          showError('Could not load your profile. Please refresh.');
+          return;
+        }
+        if (!profile) {
+          showError('Profile not found. Please contact support.');
+          return;
+        }
+        profileData = profile;
+
+        // populate profile UI
+        fullName.textContent = profile.full_name || '—';
+        email.textContent = profile.email || currentUser.email || '—';
+        phone.textContent = profile.phone || '—';
+        country.textContent = profile.country || '—';
+        const code = profile.referrer_code || 'N/A';
+        refCode.textContent = code;
+        const statusVal = profile.status || 'inactive';
+        statusText.textContent = statusVal;
+        statusText.className = 'status-badge' + (statusVal.toLowerCase() === 'active' ? ' active' : '');
+
+        // 2. build referral link (GitHub Pages base)
+        const baseUrl = 'https://mohammedkamilizeberai.github.io/referral-website/';
+        const refParam = code && code !== 'N/A' ? `?ref=${encodeURIComponent(code)}` : '';
+        const fullLink = baseUrl + refParam;
+        refLinkInput.value = fullLink;
+
+        // 3. fetch referrals for this user
+        await loadReferrals(userId);
+
+        // 4. update stats based on referrals & commissions
+        updateStatsAndCommission();
+
+      } catch (err) {
+        console.error('loadProfileAndReferrals error:', err);
+        showError('Unexpected error while loading data.');
+      }
+    }
+
+    // ---------- FETCH REFERRALS ----------
+    async function loadReferrals(userId) {
+      try {
+        const { data, error } = await supabaseClient
+          .from('referrals')
+          .select('id, referred_email, referred_name, created_at, package_name, status, commission_amount')
+          .eq('referrer_id', userId)
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('Referrals fetch error:', error);
+          showError('Could not load referral history.');
+          referralRecords = [];
+        } else {
+          referralRecords = data || [];
+        }
+        renderTable(referralRecords);
+      } catch (e) {
+        console.error('loadReferrals exception:', e);
+        referralRecords = [];
+        renderTable([]);
+      }
+    }
+
+    // ---------- RENDER TABLE ----------
+    function renderTable(records) {
+      if (!records || records.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="5" class="empty-state">No referrals yet.</td></tr>`;
+        return;
+      }
+      let html = '';
+      records.forEach(r => {
+        const statusClass = (r.status || 'pending').toLowerCase();
+        const comm = r.commission_amount ?? 0;
+        html += `<tr>
+          <td>${r.referred_name || r.referred_email || '—'}</td>
+          <td>${r.created_at ? new Date(r.created_at).toLocaleDateString() : '—'}</td>
+          <td>${r.package_name || '—'}</td>
+          <td><span class="status-pill ${statusClass}">${r.status || 'pending'}</span></td>
+          <td>${typeof comm === 'number' ? '$' + comm.toFixed(2) : '—'}</td>
+        </tr>`;
+      });
+      tableBody.innerHTML = html;
+    }
+
+    // ---------- UPDATE STATS & COMMISSION (from referralRecords) ----------
+    function updateStatsAndCommission() {
+      const records = referralRecords || [];
+      const total = records.length;
+      const successful = records.filter(r => (r.status || '').toLowerCase() === 'successful').length;
+      const pending = records.filter(r => (r.status || '').toLowerCase() === 'pending').length;
+
+      // commission: sum commission_amount
+      let totalCommission = 0;
+      let paidCommission = 0;
+      records.forEach(r => {
+        const amt = parseFloat(r.commission_amount) || 0;
+        totalCommission += amt;
+        if ((r.status || '').toLowerCase() === 'paid') paidCommission += amt;
+      });
+      const available = totalCommission - paidCommission; // simplistic
+
+      totalRefs.textContent = total;
+      successRefs.textContent = successful;
+      pendingRefs.textContent = pending;
+      totalComm.textContent = '$' + totalCommission.toFixed(2);
+      availComm.textContent = '$' + available.toFixed(2);
+      paidComm.textContent = '$' + paidCommission.toFixed(2);
+
+      // extra commission cards
+      totalEarnedComm.textContent = '$' + totalCommission.toFixed(2);
+      availableBalComm.textContent = '$' + available.toFixed(2);
+      paidOutComm.textContent = '$' + paidCommission.toFixed(2);
+    }
+
+    // ---------- COPY LINK ----------
+    function copyReferralLink() {
+      const link = refLinkInput.value;
+      if (!link || link.includes('undefined')) {
+        copyFeedback.textContent = '⚠️ Referral code missing.';
+        return;
+      }
+      navigator.clipboard.writeText(link).then(() => {
+        copyFeedback.textContent = '✅ Copied to clipboard!';
+        setTimeout(() => { copyFeedback.textContent = ''; }, 3000);
+      }).catch(() => {
+        // fallback
+        refLinkInput.select();
+        document.execCommand('copy');
+        copyFeedback.textContent = '✅ Copied!';
+        setTimeout(() => { copyFeedback.textContent = ''; }, 3000);
+      });
+    }
+
+    // ---------- LOGOUT ----------
+    async function logout() {
+      if (!supabaseClient) return;
+      try {
+        await supabaseClient.auth.signOut();
+        window.location.href = 'index.html';
+      } catch (e) {
+        showError('Logout error. Try again.');
+        console.error(e);
+      }
+    }
+
+    // ---------- EVENT BINDING ----------
+    copyBtn.addEventListener('click', copyReferralLink);
+    logoutBtn.addEventListener('click', logout);
+
+    // ---------- START ----------
+    document.addEventListener('DOMContentLoaded', function() {
+      initSupabase();
+      if (supabaseClient) {
+        checkAuthAndLoad();
+      } else {
+        showError('Supabase client failed to initialize.');
+      }
+    });
+
+  })();
+</script>
+</body>
+</html>
