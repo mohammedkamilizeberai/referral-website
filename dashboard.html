@@ -705,5 +705,15 @@
 
   })();
 </script>
+   src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  const SUPABASE_URL = 'https://louhkuctkgdjdcranmmp.supabase.co/rest/v1/';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_HXgU7f69fXBYfNDMZhnUWw_PhOFw0SN';
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+  </script>
 </body>
 </html>
