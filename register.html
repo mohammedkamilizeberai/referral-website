@@ -857,23 +857,33 @@
           return;
         }
 
-        // ---- SUCCESS ----
-        // In production with Supabase, this is where we'd call signUp()
-        // For now, show a friendly message (no fake account creation)
-        alert(
-          '✅ Registration form is ready!\n\n' +
-          'Supabase authentication will be connected later.\n' +
-          'After successful registration, you will be redirected to dashboard.html.\n\n' +
-          'Thank you for joining Webs By Kamil.'
-        );
+      // ---- SUPABASE REGISTRATION ----
+const fullName = document.getElementById('fullName').value.trim();
+const email = document.getElementById('email').value.trim();
+const phone = document.getElementById('phone').value.trim();
+const country = document.getElementById('country').value;
+const password = document.getElementById('password').value;
 
-        // Reset form (optional – comment out if you want to keep data for testing)
-        // form.reset();
-        // clear errors
-        form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
-        form.querySelectorAll('.error-msg.visible').forEach(el => el.classList.remove('visible'));
-        document.getElementById('termsGroup').classList.remove('error');
-        document.getElementById('termsError').style.display = 'none';
+const { data, error } = await supabaseClient.auth.signUp({
+  email: email,
+  password: password,
+  options: {
+    data: {
+      full_name: fullName,
+      phone: phone,
+      country: country
+    }
+  }
+});
+
+if (error) {
+  alert('Registration failed: ' + error.message);
+  return;
+}
+
+alert('Registration successful! Please check your email to confirm your account.');
+
+        
       });
 
       // mobile toggle
@@ -905,7 +915,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-  const SUPABASE_URL = 'https://louhkuctkgdjdcranmmp.supabase.co/rest/v1/';
+  const SUPABASE_URL = 'https://louhkuctkgdjdcranmmp.supabase.co';
   const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_HXgU7f69fXBYfNDMZhnUWw_PhOFw0SN';
 
   const supabaseClient = window.supabase.createClient(
