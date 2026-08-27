@@ -714,35 +714,60 @@
       });
 
       // form submit
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
+      form.addEventListener('submit', async function(e) {
+  e.preventDefault();
 
-        let isValid = true;
+  let isValid = true;
 
-        // validate email
-        const email = document.getElementById('email');
-        if (!validateField(email)) isValid = false;
+  // Validate email
+  const email = document.getElementById('email');
+  if (!validateField(email)) isValid = false;
 
-        // validate password
-        const password = document.getElementById('password');
-        if (!validateField(password)) isValid = false;
+  // Validate password
+  const password = document.getElementById('password');
+  if (!validateField(password)) isValid = false;
 
-        if (!isValid) {
-          // scroll to first error
-          const firstError = form.querySelector('.error');
-          if (firstError) {
-            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-          return;
-        }
+  if (!isValid) {
+    const firstError = form.querySelector('.error');
 
-        // ---- SUCCESS ----
-        // In production with Supabase, this is where we'd call signIn()
-        alert(
-          '✅ Login form is ready!\n\n' +
-          'Supabase authentication will be connected later.\n' +
-          'After successful login, you will be redirected to dashboard.html.\n\n' +
-          'For now, this is the frontend login page.'
+    if (firstError) {
+      firstError.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
+
+    return;
+  }
+
+  // Show loading state
+  const submitButton = form.querySelector('button[type="submit"]');
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.textContent = 'Logging in...';
+  }
+
+  // Sign in with Supabase
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email.value.trim(),
+    password: password.value
+  });
+
+  if (error) {
+    alert('❌ Login failed:\n\n' + error.message);
+
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Login';
+    }
+
+    return;
+  }
+
+  // Login successful
+  window.location.href =
+    'https://mohammedkamilizeberai.github.io/referral-website/dashboard.html';
+}
         );
 
         // Optionally reset form errors
@@ -783,5 +808,18 @@
       }
     })();
   </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = 'https://louhkuctkgdjdcranmmp.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_HXgU7f69fXBYfNDMZhnUWw_PhOFw0SN';
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+</script>
+
 </body>
-</html>
+  </html>
