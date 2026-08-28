@@ -942,7 +942,19 @@ form.addEventListener('submit', async function(e) {
     button.textContent = 'Logging in...';
   }
 
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
+   const { data, error } = await supabaseClient.auth.signUp({
+  email: email,
+  password: password,
+  options: {
+    emailRedirectTo:
+      'https://mohammedkamilizeberai.github.io/referral-website/dashboard.html',
+    data: {
+      full_name: fullName,
+      phone: phone,
+      country: country
+    }
+  }
+});({
     email: email,
     password: password
   });
