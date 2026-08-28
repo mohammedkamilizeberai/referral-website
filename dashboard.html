@@ -511,11 +511,16 @@
         return;
       }
       try {
-        const { data: { session }, error } = await supabaseClient.auth.getSession();
-        if (error || !session) {
-          // not authenticated -> redirect to register
-          window.location.href = 'register.html';
-          return;
+        const { data: { session }, error } =
+  await supabaseClient.auth.getSession();
+
+if (error || !session) {
+  window.location.href =
+    'https://mohammedkamilizeberai.github.io/referral-website/login.html';
+  return;
+}
+
+const user = session.user;
         }
         currentUser = session.user;
         // show basic email in greeting
