@@ -923,6 +923,45 @@ alert('Registration successful! Please check your email to confirm your account.
     SUPABASE_PUBLISHABLE_KEY
   );
 </script>
+  <script>
+form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  if (!email || !password) {
+    alert('Please enter your email and password.');
+    return;
+  }
+
+  const button = form.querySelector('button[type="submit"]');
+
+  if (button) {
+    button.disabled = true;
+    button.textContent = 'Logging in...';
+  }
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    alert('Login failed: ' + error.message);
+
+    if (button) {
+      button.disabled = false;
+      button.textContent = 'Login';
+    }
+
+    return;
+  }
+
+  window.location.href =
+    'https://mohammedkamilizeberai.github.io/referral-website/dashboard.html';
+});
+  </script>
 
 </body>
 </html>
